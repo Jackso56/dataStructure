@@ -881,7 +881,7 @@ public class Greedy {
             @Override
             public int compare(int[] o1, int[] o2) {
                 // 这里采用差值排序
-                return Integer.compare(o1[0]-o1[1],o2[0]-o1[1]);
+                return Integer.compare(o1[0] - o1[1], o2[0] - o1[1]);
             }
         });
         int answer = 0;
@@ -894,5 +894,41 @@ public class Greedy {
         }
         return answer;
     }
+
+
+    /**
+     * 给定行和列的和求可行矩阵
+     * <p>
+     * 核心：取行列的最小值
+     * <p>
+     * 给你两个非负整数数组 rowSum 和 colSum ，其中 rowSum[i] 是二维矩阵中第 i 行元素的和， colSum[j] 是第 j 列元素的和。换言之你不知道矩阵里的每个元素，但是你知道每一行和每一列的和。
+     * <p>
+     * 请找到大小为 rowSum.length x colSum.length 的任意 非负整数 矩阵，且该矩阵满足 rowSum 和 colSum 的要求。
+     * <p>
+     * 请你返回任意一个满足题目要求的二维矩阵，题目保证存在 至少一个 可行矩阵。
+     * <p>
+     * 作者：LeetCode
+     * 链接：https://leetcode.cn/leetbook/read/greedy/rvs6bt/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     *
+     * @param rowSum
+     * @param colSum
+     * @return
+     */
+    public static int[][] restoreMatrix(int[] rowSum, int[] colSum) {
+        int[][] answer = new int[rowSum.length][colSum.length];
+        int value = 0;
+        for (int i = 0; i < rowSum.length; i++) {
+            for (int j = 0; j < colSum.length; j++) {
+                value = Math.min(rowSum[i],colSum[j]);
+                answer[i][j] = value;
+                rowSum[i] -= value;
+                colSum[j] -= value;
+            }
+        }
+        return answer;
+    }
+
 
 }
