@@ -1,4 +1,4 @@
-package com.jason.dataStructure.sequenceTable;
+package jason.dataStructure.sequenceTable;
 
 import java.util.*;
 
@@ -598,6 +598,7 @@ public class Greedy {
 
     /**
      * test for questionForNine
+     *
      * @param prices
      * @return
      */
@@ -611,10 +612,10 @@ public class Greedy {
                 height = prices[j];
                 low = prices[i];
                 j++;
-                while(j < len ){
-                    if (prices[j] > height){
+                while (j < len) {
+                    if (prices[j] > height) {
                         height = prices[j];
-                    }else {
+                    } else {
                         sum += height - low;
                         i = j;
                         j++;
@@ -624,7 +625,7 @@ public class Greedy {
                     j++;
                 }
             }
-            if (height != Integer.MAX_VALUE){
+            if (height != Integer.MAX_VALUE) {
                 sum += height - low;
             }
         }
@@ -753,7 +754,7 @@ public class Greedy {
      * @param s2
      * @return
      */
-    public int minimumSwap(String s1, String s2) {
+    public static int minimumSwap(String s1, String s2) {
         // 核心：x y 不同的个数
         char[] char1 = s1.toCharArray();
         char[] char2 = s2.toCharArray();
@@ -777,22 +778,121 @@ public class Greedy {
 
     /**
      * 构造 K 个回文字符串
-     *
+     * <p>
+     * 核心：计算出基数字符数
+     * <p>
      * 给你一个字符串 s 和一个整数 k 。请你用 s 字符串中 所有字符 构造 k 个非空 回文串 。
-     *
+     * <p>
      * 如果你可以用 s 中所有字符构造 k 个回文字符串，那么请你返回 True ，否则返回 False 。
-     *
+     * <p>
      * 作者：LeetCode
      * 链接：https://leetcode.cn/leetbook/read/greedy/rvkjxg/
      * 来源：力扣（LeetCode）
      * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     *
      * @param s
      * @param k
+     * @return boolean
+     */
+    public static boolean canConstruct(String s, int k) {
+        if (s.length() == k) {
+            return true;
+        }
+        if (s.length() < k) {
+            return false;
+        }
+        char[] strArray = s.toCharArray();
+        int max = s.length(), min = 0, charsLen = (int) 'z' + 1;
+        int[] chars = new int[charsLen];
+        for (int i = 0; i < max; i++) {
+            chars[(int) strArray[i]]++;
+        }
+        for (int i = 96; i < charsLen; i++) {
+            if (chars[i] % 2 != 0) {
+                min++;
+            }
+        }
+        // 最少回文字符串个数 <= k <= 最大回文字符串个数
+        return k >= min && k <= max;
+    }
+
+
+    /**
+     * 使括号有效的最少添加
+     * <p>
+     * 核心：栈思想
+     * <p>
+     * 只有满足下面几点之一，括号字符串才是有效的：
+     * <p>
+     * 它是一个空字符串，或者<p>
+     * 它可以被写成 AB （A 与 B 连接）, 其中 A 和 B 都是有效字符串，或者
+     * 它可以被写作 (A)，其中 A 是有效字符串。
+     * 给定一个括号字符串 s ，在每一次操作中，你都可以在字符串的任何位置插入一个括号
+     * <p>
+     * 例如，如果 s = "()))" ，你可以插入一个开始括号为 "(()))" 或结束括号为 "())))" 。
+     * 返回 为使结果字符串 s 有效而必须添加的最少括号数。
+     * <p>
+     * 作者：LeetCode
+     * 链接：https://leetcode.cn/leetbook/read/greedy/rvgyhv/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     *
+     * @param s
+     * @return int
+     */
+    public static int minAddToMakeValid(String s) {
+        int left = 0, answer = 0, len = s.length();
+        for (int i = 0; i < len; i++) {
+            if (s.charAt(i) == '(') {
+                // 遇到左括号直接累加
+                left++;
+            } else if (left > 0) {
+                // 有与右括号匹配的左括号
+                left--;
+            } else {
+                // 没有与右括号匹配的左括号
+                answer++;
+            }
+        }
+        return left + answer;
+    }
+
+
+    /**
+     * 两地面试
+     * <p>
+     * 核心：差值排序使一边尽可能小，则总和就会越小
+     * <p>
+     * 公司计划面试 2n 人。给你一个数组 costs ，
+     * 其中 costs[i] = [aCosti, bCosti] 。第 i 人飞往 a 市的费用为 aCosti ，飞往 b 市的费用为 bCosti 。
+     * <p>
+     * 返回将每个人都飞到 a 、b 中某座城市的最低费用，要求每个城市都有 n 人抵达。
+     * <p>
+     * 作者：LeetCode
+     * 链接：https://leetcode.cn/leetbook/read/greedy/rvzzjj/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     *
+     * @param costs
      * @return
      */
-    public boolean canConstruct(String s,int k){
-
-        return false;
+    public static int twoCitySchedCost(int[][] costs) {
+        Arrays.sort(costs, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                // 这里采用差值排序
+                return Integer.compare(o1[0]-o1[1],o2[0]-o1[1]);
+            }
+        });
+        int answer = 0;
+        for (int i = 0; i < costs.length; i++) {
+            if (i < costs.length / 2) {
+                answer += costs[i][0];
+            } else {
+                answer += costs[i][1];
+            }
+        }
+        return answer;
     }
 
 }
