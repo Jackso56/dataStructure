@@ -10,6 +10,8 @@ import java.util.*;
 @SuppressWarnings({"all"})
 public class Greedy {
 
+    // region
+
     /**
      * 贪心算法概述：
      * 「贪心算法」由于适用的问题，每一个步骤只有一种选择，一般而言只需要记录与当前步骤相关的变量的值。
@@ -425,7 +427,7 @@ public class Greedy {
         }
         return false;
     }
-
+    // endregion
 
     /**
      * 跳跃问题二(隐含条件：一定可以到达最后一个元素)
