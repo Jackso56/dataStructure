@@ -1,7 +1,4 @@
-package jason.dataStructure.sequenceTable.greedy;
-
-
-import jdk.nashorn.internal.ir.CallNode;
+package jason.greedy;
 
 import java.util.Deque;
 import java.util.LinkedList;
