@@ -2,8 +2,6 @@ package jason.recursion;
 
 import java.util.Arrays;
 
-import static com.sun.webkit.perf.WCGraphicsPerfLogger.log;
-
 
 /**
  * @author Jason Black
