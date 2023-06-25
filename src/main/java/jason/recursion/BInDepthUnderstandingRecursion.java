@@ -1,4 +1,4 @@
-package main.java.jason.recursion;
+package jason.recursion;
 
 import java.util.Arrays;
 
