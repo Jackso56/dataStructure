@@ -14,13 +14,16 @@ public class BInDepthUnderstandingRecursion {
 
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(mergeSort(new int[]{8, 7, 4, 1, 8, 3, 2, 7, 4, 9, 3, 2, 4, 9})));
+        int[] array = {1, 8, 4, 7, 8, 2, 34, 8};
+        System.out.println(Arrays.toString(array));
+        quickSort(array);
+        System.out.println(Arrays.toString(array));
     }
 
     /**
-     * 归并排序 --> 分治，递归的经典案例
-     * <p></>
-     * partition() --> 实现分治  &nbsp;&nbsp; merge() --> 实现了归并
+     * 分治，递归的经典案例 -- 归并排序
+     * <p>
+     * partition() --> 实现分治  &nbsp;&nbsp; merge() --> 实现了归并(核心)
      *
      * @param nums
      * @return
@@ -39,7 +42,7 @@ public class BInDepthUnderstandingRecursion {
             System.out.println("Y解决子问题" + "[" + left + "," + right + "]");
             return;
         }
-        int middle = (left + right) >> 1;
+        int middle = left + (left + right) >> 1;
         // 开始分治  -->  大问题拆分成一个个胡小问题
         partition(nums, left, middle, tempNums);
         partition(nums, middle + 1, right, tempNums);
@@ -71,4 +74,73 @@ public class BInDepthUnderstandingRecursion {
             nums[index++] = tempNums[tempRight++];
         }
     }
+
+
+    /**
+     * 分治，递归的经典案例 -- 快排
+     * <p>
+     * partition() --> 实现分治(核心)  &nbsp;&nbsp; quickSort() --> 实现了归并
+     * <p>
+     *
+     * @param array
+     */
+    public static void quickSort(int[] array) {
+        quickSort(array, 0, array.length - 1);
+    }
+
+    private static void quickSort(int[] array, int left, int right) {
+        // 边界条件
+        if (left >= right) {
+            return;
+        }
+        // 获取中间下标
+        int middle = partition(array, left, right);
+        // 左边的快排
+        quickSort(array, left, middle - 1);
+        // 右边快排
+        quickSort(array, middle + 1, right);
+    }
+
+    private static int partition(int[] array, int left, int right) {
+        // 基数
+        int middle = array[left];
+        // 左边界
+        int tempLeft = left + 1;
+        // 右边界
+        int tempRight = right;
+        // 左右边界为相遇
+        while (tempLeft < tempRight) {
+            //  tempLeft++  &&  tempRight++   可能导致 tempLeft >= tempRight
+            // 左右边界未相遇 && 当前值 < 基值
+            while (tempLeft < tempRight && array[tempLeft] <= middle) {
+                tempLeft++;
+            }
+            // 左右边界未相遇 && 当前值 > 基值
+            while (tempLeft < tempRight && array[tempRight] >= middle) {
+                tempRight--;
+            }
+            // 将左右区间值进行区分
+            if (tempLeft < tempRight) {
+                swap(array, tempLeft, tempRight);
+                tempLeft++;
+                tempRight--;
+            }
+        }
+        // 将边界值放到中间
+        if (tempLeft == tempRight && array[tempRight] > middle) {
+            tempRight--;
+        }
+        // 将基值放在中间
+        swap(array, left, tempRight);
+        // 返回基值下标
+        return tempRight;
+    }
+
+    private static void swap(int[] array, int left, int right) {
+        int temp = array[left];
+        array[left] = array[right];
+        array[right] = temp;
+    }
+
+
 }
