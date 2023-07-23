@@ -1,5 +1,8 @@
 package jason.recursion;
 
+import java.util.Arrays;
+import java.util.Random;
+
 /**
  * @author Jason Black
  * @version The past cannot be redeemed, the future can be changed.
@@ -9,7 +12,11 @@ package jason.recursion;
 public class Test {
 
     public static void main(String[] args) {
-        System.out.println(reversePairs(new int[]{7, 5, 6, 4}));
+        int[] nums = {4, 7, 1, 2, 9, 3, 4, 7, 8, 2};
+        int[] num = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        System.out.println(Arrays.toString(nums));
+        quickSort(nums);
+        System.out.println(Arrays.toString(nums));
     }
 
     public static int reversePairs(int[] nums) {
@@ -33,7 +40,7 @@ public class Test {
         int leftResult = pair(nums, start, middle, tempNums);
         int rightResult = pair(nums, middle + 1, end, tempNums);
         // 当左边界的值 大于 有边界的值   则直接返回左右两边的结果
-        if (nums[middle] <= nums[middle + 1]){
+        if (nums[middle] <= nums[middle + 1]) {
             return leftResult + rightResult;
         }
         int allResult = partition(nums, start, middle, end, tempNums);
@@ -63,6 +70,57 @@ public class Test {
             }
         }
         return result;
+    }
+
+
+    public static void quickSort(int[] nums) {
+        if (nums.length < 2) {
+            return;
+        }
+        quicksort(nums, 0, nums.length - 1);
+    }
+
+    private static void quicksort(int[] nums, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        int middle = merge(nums, left, right);
+        quicksort(nums, left, middle - 1);
+        quicksort(nums, middle + 1, right);
+    }
+
+    private static int randomMiddle(int left, int right) {
+        return new Random().nextInt(left + (right - left));
+    }
+
+    private static int merge(int[] nums, int left, int right) {
+        int middle = randomMiddle(left, right);
+        swap(nums, middle, left);
+        int target = nums[left];
+        int tempLeft = left + 1;
+        int tempRight = right;
+        while (tempLeft < tempRight) {
+            while (tempLeft < tempRight && nums[tempLeft] <= target) {
+                tempLeft++;
+            }
+            while (tempLeft < tempRight && nums[tempRight] >= target) {
+                tempRight--;
+            }
+            swap(nums,tempLeft,tempRight);
+            tempLeft++;
+            tempRight--;
+        }
+        if (tempLeft == tempRight && nums[tempRight] >= target) {
+            tempRight--;
+        }
+        swap(nums, left, tempRight);
+        return tempRight;
+    }
+
+    private static void swap(int[] nums, int num1, int num2) {
+        int temp = nums[num1];
+        nums[num1] = nums[num2];
+        nums[num1] = temp;
     }
 
 }

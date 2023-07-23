@@ -10,15 +10,9 @@ import java.util.Arrays;
  **/
 
 @SuppressWarnings({"all"})
-public class BInDepthUnderstandingRecursion {
+public class BInDepthUnderstandingRecursionOne {
 
 
-    public static void main(String[] args) {
-        int[] array = {1, 8, 4, 7, 8, 2, 34, 8};
-        System.out.println(Arrays.toString(array));
-        quickSort(array);
-        System.out.println(Arrays.toString(array));
-    }
 
     /**
      * 分治，递归的经典案例 -- 归并排序
@@ -120,11 +114,11 @@ public class BInDepthUnderstandingRecursion {
                 tempRight--;
             }
             // 将左右区间值进行区分
-            if (tempLeft < tempRight) {
-                swap(array, tempLeft, tempRight);
-                tempLeft++;
-                tempRight--;
-            }
+//            if (tempLeft < tempRight) {
+//                swap(array, tempLeft, tempRight);
+//                tempLeft++;
+//                tempRight--;
+//            }
         }
         // 将边界值放到中间
         if (tempLeft == tempRight && array[tempRight] > middle) {
